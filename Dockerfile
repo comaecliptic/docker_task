@@ -21,7 +21,7 @@ RUN wget https://github.com/ebiggers/libdeflate/archive/v1.7.tar.gz && \
     tar --gzip -xvf v1.7.tar.gz && \
     cd libdeflate-1.7 && \
     make PREFIX=$SOFT/libdeflate-1.7 && \
-    make install && \
+    make install PREFIX=$SOFT/libdeflate-1.7 && \
     cd /tmp && rm -r /tmp/*
 
 # htslib v1.11 (22 Sep 2020)
