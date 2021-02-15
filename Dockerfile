@@ -20,34 +20,38 @@ WORKDIR /tmp
 RUN wget https://github.com/ebiggers/libdeflate/archive/v1.7.tar.gz && \
     tar --gzip -xvf v1.7.tar.gz && \
     cd libdeflate-1.7 && \
-    make PREFIX=$SOFT/libdeflate && \
-    make install
+    make PREFIX=$SOFT/libdeflate-1.7 && \
+    make install && \
+    cd /tmp && rm -r /tmp/*
 
 # htslib v1.11 (22 Sep 2020)
 RUN wget https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && \
     tar --bzip2 -xvf htslib-1.11.tar.bz2 && \
     cd htslib-1.11 && \
-    ./configure --prefix=$SOFT/htslib && \
+    ./configure --prefix=$SOFT/htslib-1.11 && \
     make && \
-    make install
+    make install && \
+    cd /tmp && rm -r /tmp/*
 
 # samtools v1.11 (22 Sep 2020)
 RUN wget https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2 && \
     tar --bzip2 -xvf samtools-1.11.tar.bz2 && \
     cd samtools-1.11 && \
-    ./configure --prefix=$SOFT/samtools && \
+    ./configure --prefix=$SOFT/samtools-1.11 && \
     make && \
-    make install
+    make install && \
+    cd /tmp && rm -r /tmp/*
 
 # libmaus2 v2.0.770 (23 Jan 2021)
-ENV LIBMAUSPREFIX=$SOFT/libmaus2
+ENV LIBMAUSPREFIX=$SOFT/libmaus2-2.0.770
 RUN wget https://gitlab.com/german.tischler/libmaus2/-/archive/2.0.770-release-20210123164625/libmaus2-2.0.770-release-20210123164625.tar.bz2 && \
     tar --bzip2 -xvf libmaus2-2.0.770-release-20210123164625.tar.bz2 && \
     cd libmaus2-2.0.770-release-20210123164625 && \
     ./configure --prefix=$LIBMAUSPREFIX \
         CXX=g++-8 CXXFLAGS=-lstdc++fs && \
     make && \
-    make install
+    make install && \
+    cd /tmp && rm -r /tmp/*
 
 # biobambam2 v2.0.179 (28 Dec 2020)
 RUN echo $LIBMAUSPREFIX && \
@@ -55,9 +59,9 @@ RUN echo $LIBMAUSPREFIX && \
     tar --bzip2 -xvf biobambam2-2.0.179-release-20201228191456.tar.bz2 && \
     cd biobambam2-2.0.179-release-20201228191456 && \
     ./configure --with-libmaus2=$LIBMAUSPREFIX \
-        --prefix=$SOFT/biobambam2 \
+        --prefix=$SOFT/biobambam2-2.0.179 \
         CXX=g++-8 && \
-    make install
+    make install && \
+    cd /tmp && rm -r /tmp/*
 
 WORKDIR /
-RUN rm -rf /tmp
