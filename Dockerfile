@@ -65,3 +65,21 @@ RUN echo $LIBMAUSPREFIX && \
     cd /tmp && rm -r /tmp/*
 
 WORKDIR /
+
+# add executables' directories to PATH
+ENV PATH=/soft/libdeflate-1.7/bin:/soft/htslib-1.11/bin:/soft/samtools-1.11/bin:/soft/biobambam2-2.0.179/bin:$PATH
+
+# add executable files as environmental variables
+ENTRYPOINT for soft_dir in $(find $SOFT -maxdepth 1 -type d); do \
+        binary_dir="${soft_dir}/bin"; \
+        if [ -d "$binary_dir" ]; then \
+            for command in $(find $binary_dir -maxdepth 1 -type f); do \
+                command_clean="$(basename -- $command)" \
+                command_clean_no_ext="${command_clean%.*}"; \
+                capital_command="$(echo $command_clean_no_ext | tr a-z A-Z)"; \
+                capital_command_no_hyphen="$(echo $capital_command | tr -d -- -)"; \
+                export $capital_command_no_hyphen="$command_clean_no_ext"; \
+            done; \
+        fi; \ 
+    done; \
+    bash "$@"
