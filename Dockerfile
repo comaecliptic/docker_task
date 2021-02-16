@@ -65,6 +65,7 @@ RUN echo $LIBMAUSPREFIX && \
     cd /tmp && rm -r /tmp/*
 
 WORKDIR /
+RUN rm -r /tmp
 
 # add executables' directories to PATH
 ENV PATH=/soft/libdeflate-1.7/bin:/soft/htslib-1.11/bin:/soft/samtools-1.11/bin:/soft/biobambam2-2.0.179/bin:$PATH
